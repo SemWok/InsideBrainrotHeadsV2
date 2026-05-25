@@ -1,0 +1,44 @@
+local P,RS,CG=game:GetService("Players"),game:GetService("ReplicatedStorage"),game:GetService("CoreGui")
+local LP=P.LocalPlayer;if CG:FindFirstChild("SemWokHub_Final_V12")then CG.SemWokHub_Final_V12:Destroy()end
+local SG=Instance.new("ScreenGui",CG);SG.Name="SemWokHub_Final_V12";SG.ResetOnSpawn=false
+local rem=RS:WaitForChild("packages"):WaitForChild("_Index"):WaitForChild("littensy_remo@1.5.3"):WaitForChild("remo"):WaitForChild("container")
+
+local function F(n,p,s,t)
+    local f=Instance.new("Frame",SG);f.Name=n;f.BackgroundColor3=Color3.new(0,0,0);f.BorderSizePixel=2;f.BorderColor3=Color3.fromRGB(60,60,60);f.Position=p;f.Size=s;f.Active=true;f.Draggable=true;f.ClipsDescendants=true
+    local tl=Instance.new("TextLabel",f);tl.Size=UDim2.new(1,0,0,42);tl.RichText=true;tl.Text="<b>"..t:upper().."</b>";tl.TextColor3=Color3.fromRGB(255,255,255);tl.Font=3;tl.TextSize=22;tl.BackgroundColor3=Color3.fromRGB(30,30,30);tl.BorderSizePixel=0
+    local tg=Instance.new("TextButton",f);tg.Size=UDim2.new(0,30,0,30);tg.Position=UDim2.new(1,-35,0,6);tg.Text="▼";tg.TextColor3=Color3.new(0,0,0);tg.BackgroundTransparency=1;tg.Font=3;tg.TextSize=20;tg.ZIndex=5
+    local c=Instance.new("Frame",f);c.Name="C";c.Size=UDim2.new(1,0,1,-42);c.Position=UDim2.new(0,0,0,42);c.BackgroundTransparency=1
+    tg.MouseButton1Click:Connect(function()local op=c.Visible;c.Visible=not op;f:TweenSize(not op and s or UDim2.new(0,s.X.Offset,0,42),"Out","Quad",0.15)end)
+    return c 
+end
+
+local function B(p,t,v,c)
+    local b=Instance.new("TextButton",p);b.Size=UDim2.new(1,0,0,45);b.Position=UDim2.new(0,0,0,(#p:GetChildren()-(p:FindFirstChild("WM") and 2 or 1))*45);b.BackgroundTransparency=1;b.RichText=true;b.Text="<b>  "..t.."</b>";b.TextColor3=Color3.fromRGB(255,255,255);b.Font=3;b.TextSize=18;b.TextXAlignment=0
+    local box=Instance.new("Frame",b);box.Size=UDim2.new(0,22,0,22);box.Position=UDim2.new(1,-30,0.5,-11);box.BackgroundColor3=Color3.new(0,0,0);box.BorderColor3=Color3.fromRGB(100,100,100);box.BorderSizePixel=2
+    local chk=Instance.new("TextLabel",box);chk.Size=UDim2.new(1,0,1,0);chk.BackgroundTransparency=1;chk.Text="";chk.TextColor3=Color3.new(0,0,0);chk.RichText=true;chk.TextSize=16;chk.Font=3;chk.TextYAlignment=1
+    b.MouseButton1Click:Connect(function()
+        if v then _G[v]=not _G[v];chk.Text=_G[v] and "<b>✔</b>" or "";box.BackgroundColor3=_G[v] and Color3.new(1,0,0) or Color3.new(0,0,0);box.BorderColor3=_G[v] and Color3.new(1,0,0) or Color3.fromRGB(100,100,100) end;c()
+    end)
+    return b 
+end
+
+local nt={{"Meowl","meowl"},{"Eleccobee","eleccoBee"},{"Lava Golem","lavaGolem"},{"Frogio Blingo","frogioBlingo"},{"Dragon Cannelloni","dragonCannelloni"},{"Job Sahur","jobJobJobSahur"},{"Strawberry","strewberry"},{"Yellow Lucky Block","yellowLuckyBlock"},{"Karkar Kurkur","karkarKurkurkur"},{"Esok Sekolah","esokSekolah"},{"Brainrot 67","brainrot67"},{"Noob","noob"}}
+
+-- Frame Utama Lebar 220
+local MC=F("M",UDim2.new(0.05,0,0.2,0),UDim2.new(0,220,0,320),"INSIDE BRAINROT HEADS")
+
+B(MC,"Auto Grab Brainrot","aF",function() if _G.aF then task.spawn(function() while _G.aF do local h=LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") if h then local f=nil;for _,n in ipairs(nt)do if not _G.aF then break end;pcall(function()rem["game.nest.enterNest"]:FireServer(n[2])end)local s,e=h.Position,0;while e<0.3 do task.wait(0.03)e=e+0.03;if(h.Position-s).Magnitude>100 then f=n;break end end;if f then break end end; if f and _G.aF then while not LP.PlayerGui.InGameGui.DropButton.Visible and _G.aF do task.wait(0.05)end; if _G.aF then task.spawn(function()task.wait(0.1)if LP.Character:FindFirstChild("Humanoid")then LP.Character.Humanoid.Health=0 end end)h.CFrame=CFrame.new(-34.5,33.5,-297.1)end end end;task.wait(0.5) end end) end end)
+B(MC,"Auto Collect Money","aC",function() task.spawn(function()while _G.aC do for i=1,48 do pcall(function()rem["data.base.collectPadMoney"]:InvokeServer(i)end)end;task.wait(0.5)end end) end)
+B(MC,"Auto Upgrade Base","aU",function() task.spawn(function()while _G.aU do pcall(function()rem["data.base.upgradeBase"]:FireServer()end);task.wait(0.5)end end) end)
+B(MC,"Auto Buy All Coils","aB",function() task.spawn(function()while _G.aB do for _,n in pairs({"red","blue","yellow","water","lava","poison","abyss","inferno","dream","rainbow","magma"})do pcall(function()rem["data.toolShop.buySpeedCoil"]:FireServer(n)end)end;task.wait(1)end end) end)
+B(MC,"Auto Rebirth","aR",function() task.spawn(function()while _G.aR do pcall(function()rem["data.base.rebirth"]:FireServer()end);task.wait(1)end end) end)
+
+local w=Instance.new("TextLabel",MC);w.Name="WM";w.Size=UDim2.new(1,0,0,35);w.Position=UDim2.new(0,0,1,-35);w.RichText=true;w.Text="<b>YouTube: SemWok</b>";w.TextColor3=Color3.fromRGB(255,255,255);w.Font=3;w.TextSize=20;w.BackgroundColor3=Color3.new(0,0,0);w.BackgroundTransparency=0.3
+
+-- Teleport Nest Lebar 220 (Sama dengan Frame Utama)
+local TC=F("T",UDim2.new(0.3,0,0.2,0),UDim2.new(0,220,0,380),"TELEPORT NEST")
+local S=Instance.new("ScrollingFrame",TC);S.Size=UDim2.new(1,0,1,0);S.BackgroundTransparency=1;S.CanvasSize=UDim2.new(0,0,0,600);S.ScrollBarThickness=3
+for i,v in ipairs(nt) do 
+    local b=Instance.new("TextButton",S);b.Size=UDim2.new(1,0,0,42);b.Position=UDim2.new(0,0,0,(i-1)*45);b.BackgroundColor3=Color3.fromRGB(20,20,20);b.BorderSizePixel=1;b.BorderColor3=Color3.fromRGB(60,60,60);b.RichText=true;b.Text="<b>  "..v[1].."</b>";b.TextColor3=Color3.fromRGB(255,255,255);b.Font=3;b.TextSize=18;b.TextXAlignment=0
+    b.MouseButton1Click:Connect(function()rem["game.nest.enterNest"]:FireServer(v[2])end)
+end
