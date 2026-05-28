@@ -1,5 +1,5 @@
 -- ==========================================================
--- SEMWOK HUB V42 - INTEGRATED AUTO GRAB BRAINROT
+-- SEMWOK HUB V42 - INTEGRATED AUTO GRAB BRAINROT [SIZE 24 - BAR 42]
 -- ==========================================================
 local P,RS,CG=game:GetService("Players"),game:GetService("ReplicatedStorage"),game:GetService("CoreGui")
 local LP=P.LocalPlayer;if CG:FindFirstChild("SemWokHub_Final_V12")then CG.SemWokHub_Final_V12:Destroy()end
@@ -28,11 +28,38 @@ end
 
 -- [ UI BUILDER FUNCTIONS ]
 local function F(n,p,s,t)
-    local f=Instance.new("Frame",SG);f.Name=n;f.BackgroundColor3=Color3.new(0,0,0);f.BorderSizePixel=2;f.BorderColor3=Color3.fromRGB(60,60,60);f.Position=p;f.Size=s;f.Active=true;f.Draggable=true;f.ClipsDescendants=true
-    local tl=Instance.new("TextLabel",f);tl.Size=UDim2.new(1,0,0,42);tl.RichText=true;tl.Text="<b>"..t:upper().."</b>";tl.TextColor3=Color3.fromRGB(255,255,255);tl.Font=3;tl.TextSize=22;tl.BackgroundColor3=Color3.fromRGB(30,30,30);tl.BorderSizePixel=0
-    local tg=Instance.new("TextButton",f);tg.Size=UDim2.new(0,30,0,30);tg.Position=UDim2.new(1,-35,0,6);tg.Text="▼";tg.TextColor3=Color3.new(0,0,0);tg.BackgroundTransparency=1;tg.Font=3;tg.TextSize=20;tg.ZIndex=5
-    local c=Instance.new("Frame",f);c.Name="C";c.Size=UDim2.new(1,0,1,-42);c.Position=UDim2.new(0,0,0,42);c.BackgroundTransparency=1
-    tg.MouseButton1Click:Connect(function()local op=c.Visible;c.Visible=not op;f:TweenSize(not op and s or UDim2.new(0,s.X.Offset,0,42),"Out","Quad",0.15)end)
+    -- Tinggi frame dikembalikan ke 42 saat tertutup otomatis
+    local f=Instance.new("Frame",SG);f.Name=n;f.BackgroundColor3=Color3.new(0,0,0);f.BorderSizePixel=2;f.BorderColor3=Color3.fromRGB(60,60,60);f.Position=p;f.Size=UDim2.new(0,s.X.Offset,0,42);f.Active=true;f.Draggable=true;f.ClipsDescendants=true
+    
+    -- Judul Utama ketika menu dibuka
+    local tl=Instance.new("TextLabel",f);tl.Size=UDim2.new(1,0,0,42);tl.RichText=true;tl.Text="<b>"..t:upper().."</b>";tl.TextColor3=Color3.fromRGB(255,255,255);tl.Font=3;tl.TextSize=22;tl.BackgroundColor3=Color3.fromRGB(30,30,30);tl.BorderSizePixel=0;tl.Visible=false
+    
+    -- Tombol Segitiga (Posisi kembali ke tengah bar 42px, warna tetap hitam)
+    local tg=Instance.new("TextButton",f);tg.Size=UDim2.new(0,30,0,30);tg.Position=UDim2.new(1,-35,0,6);tg.Text="▲";tg.TextColor3=Color3.new(0,0,0);tg.BackgroundTransparency=1;tg.Font=3;tg.TextSize=20;tg.ZIndex=5
+    
+    local c=Instance.new("Frame",f);c.Name="C";c.Size=UDim2.new(1,0,1,-77);c.Position=UDim2.new(0,0,0,42);c.BackgroundTransparency=1;c.Visible=false
+    
+    -- WATERMARK SAAT TUTUP: DISET PAS UKURAN 24 DI BAR 42
+    local wmClosed=Instance.new("TextLabel",f);wmClosed.Size=UDim2.new(1,0,0,42);wmClosed.Position=UDim2.new(0,0,0,0);wmClosed.RichText=true;wmClosed.Text="<b>YOUTUBE: SEMWOK</b>";wmClosed.TextColor3=Color3.fromRGB(255,255,255);wmClosed.Font=3;wmClosed.TextSize=24;wmClosed.BackgroundTransparency=1;wmClosed.Visible=true;wmClosed.ZIndex=4
+    wmClosed.TextXAlignment = Enum.TextXAlignment.Center
+    
+    -- Padding tetap 35 agar pas di sisi kiri tombol segitiga
+    local pad = Instance.new("UIPadding", wmClosed)
+    pad.PaddingLeft = UDim.new(0, 35)
+    pad.PaddingRight = UDim.new(0, 35)
+    
+    tg.MouseButton1Click:Connect(function()
+        local op=c.Visible
+        c.Visible=not op
+        tl.Visible=not op
+        wmClosed.Visible=op
+        
+        tg.Text=not op and "▼" or "▲"
+        tg.TextColor3=Color3.new(0,0,0) 
+        
+        f:TweenSize(not op and s or UDim2.new(0,s.X.Offset,0,42),"Out","Quad",0.15)
+        if f:FindFirstChild("WM") then f.WM.Visible = not op end
+    end)
     return c 
 end
 
@@ -79,12 +106,17 @@ B(MC,"Auto Upgrade Base","aU",function() task.spawn(function()while _G.aU do pca
 B(MC,"Auto Buy All Coils","aB",function() task.spawn(function()while _G.aB do for _,n in pairs({"red","blue","yellow","water","lava","poison","abyss","inferno","dream","rainbow","magma"})do pcall(function()rem["data.toolShop.buySpeedCoil"]:FireServer(n)end)end;task.wait(1)end end) end)
 B(MC,"Auto Rebirth","aR",function() task.spawn(function()while _G.aR do pcall(function()rem["data.base.rebirth"]:FireServer()end);task.wait(1)end end) end)
 
-local w=Instance.new("TextLabel",MC);w.Name="WM";w.Size=UDim2.new(1,0,0,35);w.Position=UDim2.new(0,0,1,-35);w.RichText=true;w.Text="<b>YouTube: SemWok</b>";w.TextColor3=Color3.fromRGB(255,255,255);w.Font=3;w.TextSize=20;w.BackgroundColor3=Color3.new(0,0,0);w.BackgroundTransparency=0.3
+-- WATERMARK BAWAH MAIN UI
+local w1=Instance.new("TextLabel",MC.Parent);w1.Name="WM";w1.Size=UDim2.new(1,0,0,35);w1.Position=UDim2.new(0,0,1,-35);w1.RichText=true;w1.Text="<b>YOUTUBE: SEMWOK</b>";w1.TextColor3=Color3.fromRGB(255,255,255);w1.Font=3;w1.TextSize=24;w1.BackgroundColor3=Color3.new(0,0,0);w1.BackgroundTransparency=0.3;w1.TextXAlignment=Enum.TextXAlignment.Center;w1.Visible=false
 
 -- [ TELEPORT UI ]
 local TC=F("T",UDim2.new(0.3,0,0.2,0),UDim2.new(0,220,0,380),"TELEPORT NEST")
-local S=Instance.new("ScrollingFrame",TC);S.Size=UDim2.new(1,0,1,0);S.BackgroundTransparency=1;S.CanvasSize=UDim2.new(0,0,0,600);S.ScrollBarThickness=3
+local S=Instance.new("ScrollingFrame",TC);S.Size=UDim2.new(1,0,1,0);S.BackgroundTransparency=1;S.CanvasSize=UDim2.new(0,0,0,540);S.ScrollBarThickness=3
+
 for i,v in ipairs(nests) do 
     local b=Instance.new("TextButton",S);b.Size=UDim2.new(1,0,0,42);b.Position=UDim2.new(0,0,0,(i-1)*45);b.BackgroundColor3=Color3.fromRGB(20,20,20);b.BorderSizePixel=1;b.BorderColor3=Color3.fromRGB(60,60,60);b.RichText=true;b.Text="<b>  "..v[1].."</b>";b.TextColor3=Color3.fromRGB(255,255,255);b.Font=3;b.TextSize=18;b.TextXAlignment=0
     b.MouseButton1Click:Connect(function()rem["game.nest.enterNest"]:FireServer(v[2])end)
 end
+
+-- WATERMARK BAWAH TELEPORT NEST
+local w2=Instance.new("TextLabel",TC.Parent);w2.Name="WM";w2.Size=UDim2.new(1,0,0,35);w2.Position=UDim2.new(0,0,1,-35);w2.RichText=true;w2.Text="<b>YOUTUBE: SEMWOK</b>";w2.TextColor3=Color3.fromRGB(255,255,255);w2.Font=3;w2.TextSize=24;w2.BackgroundColor3=Color3.new(0,0,0);w2.BackgroundTransparency=0.3;w2.TextXAlignment=Enum.TextXAlignment.Center;w2.Visible=false
